@@ -1,35 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
+import { port, dbURI } from "./config/enviroment.js";
+import PetCarer from "./models/PetCarerModel.js";
 
 const app = express();
-const port = 4000;
-const dbURI = "mongodb://localhost/pet-app-api";
 
-const petCarerSchema = new mongoose.Schema(
-  {
-    firstname: { type: String, required: true, maxlength: 15, minlength: 2 },
-    lastname: { type: String, required: true, maxlength: 20, minlength: 5 },
-    email: { type: String, required: true, maxlength: 30, minlength: 12 },
-    password: { type: String, required: true, minlength: 4 },
-    phonenumber: { type: Number, minlength: 8 },
-    profileimage: { type: String, required: false, maxlength: 50 },
-    aboutme: { type: String, maxlength: 500, required: true },
-    reviews: [{}], //here will go reviews from pet owners
-    preferedPets: { type: String, required: true },
-    priceperhour: { type: Number, required: true, minlength: 1, maxlength: 2 },
-    availblebookings: { type: Date }, // here will go dates when carer has availbility to take pet
-    petslookedafter: [{}], //here will go pets which carer was looking after
-    address: {
-      street: { type: String, required: true, minlength: 2 },
-      housenumber: { type: Number, required: true, minlength: 1, maxlength: 5 },
-      postcode: { type: String, required: true, minlength: 5, maxlength: 7 },
-      city: { type: String, required: true, maxlength: 15 },
-    },
-  },
-  { timestamps: true }
-);
-
-const PetCarer = mongoose.model("PetCarer", petCarerSchema);
+app.use(express.json());
 
 app.use((req, _res, next) => {
   console.log(
@@ -41,6 +17,26 @@ app.use((req, _res, next) => {
 app.get("/petcarers", async (_req, res) => {
   const carers = await PetCarer.find();
   return res.status(200).json(carers);
+});
+
+app.post("/petcarers", async (req, res) => {
+  try {
+    const newCarer = await PetCarer.create(req.body);
+    return res.status(201).json(newCarer);
+  } catch (err) {
+    return res.status(422).json(err);
+  }
+});
+
+app.get("/petcarers/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const carerById = await PetCarer.findById({ _id: id });
+    if (!carerById) throw new Error();
+    return res.status(200).json(carerById);
+  } catch (err) {
+    return res.status(404).json({ message: "Not found" });
+  }
 });
 
 const startServer = async () => {

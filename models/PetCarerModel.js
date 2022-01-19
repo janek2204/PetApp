@@ -15,9 +15,15 @@ const petCarerSchema = new mongoose.Schema(
   {
     firstname: { type: String, required: true, maxlength: 15, minlength: 2 },
     lastname: { type: String, required: true, maxlength: 20, minlength: 5 },
-    email: { type: String, required: true, maxlength: 30, minlength: 12 },
+    email: {
+      type: String,
+      required: true,
+      maxlength: 30,
+      minlength: 12,
+      unique: true,
+    },
     password: { type: String, required: true, minlength: 4 },
-    phonenumber: { type: Number, minlength: 8 },
+    phonenumber: { type: Number, minlength: 8, unique: true },
     profileimage: { type: String, required: false, maxlength: 50 },
     aboutme: { type: String, maxlength: 500, required: true },
     reviews: [reviewSchema], //here will go reviews from pet owners
