@@ -11,6 +11,8 @@ const petCarerSchema = new mongoose.Schema(
     aboutme: { type: String, maxlength: 500, required: true },
     reviews: [{}], //here will go reviews from pet owners
     preferedPets: { type: String, required: true },
+    priceperhour: { type: Number, required: true, minlength: 1, maxlength: 2 },
+    availblebookings: { type: Date }, // here will go dates when carer has availbility to take pet
     petslookedafter: [{}], //here will go pets which carer was looking after
     address: {
       street: { type: String, required: true, minlength: 2 },
