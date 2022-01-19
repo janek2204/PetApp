@@ -9,6 +9,7 @@ const petOwnerSchema = new mongoose.Schema(
     phonenumber: { type: Number, minlength: 8 },
     profileimage: { type: String, required: false, maxlength: 50 },
     aboutme: { type: String, maxlength: 500, required: true },
+    recomendetcarers: [{}], // here will go carers who owner recomends
     petdata: {
       name: { type: String, required: true, maxlength: 15 },
       image: { type: String, required: true },
@@ -25,3 +26,5 @@ const petOwnerSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+const PetOwner = mongoose.model("PetCarer", petCarerSchema);
