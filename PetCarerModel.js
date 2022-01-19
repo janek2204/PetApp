@@ -21,3 +21,5 @@ const petCarerSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+const PetCarer = mongoose.model("PetCarer", petCarerSchema);
