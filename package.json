@@ -1,0 +1,16 @@
+{
+  "name": "PetApp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:janek2204/PetApp.git",
+  "author": "piotr <piotr.jankowski2204@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.2",
+    "mongoose": "^6.1.7"
+  },
+  "type": "module",
+  "scripts": {
+    "serve": "npx nodemon index.js"
+  }
+}
