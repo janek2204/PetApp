@@ -32,13 +32,15 @@ const petCarerSchema = new mongoose.Schema(
 const PetCarer = mongoose.model("PetCarer", petCarerSchema);
 
 app.use((req, _res, next) => {
-  console.log(`🧲 request coming from method${req.method} from url ${req.url}`);
+  console.log(
+    `🧲 request coming from method ${req.method} from url '${req.url}'`
+  );
   next();
 });
 
 app.get("/petcarers", async (_req, res) => {
   const carers = await PetCarer.find();
-  console.log("pet carers ->", carers);
+  return res.status(200).json(carers);
 });
 
 const startServer = async () => {
