@@ -17,9 +17,15 @@ const petOwnerSchema = new mongoose.Schema(
   {
     firstname: { type: String, required: true, maxlength: 15, minlength: 2 },
     lastname: { type: String, required: true, maxlength: 20, minlength: 5 },
-    email: { type: String, required: true, maxlength: 30, minlength: 12 },
+    email: {
+      type: String,
+      required: true,
+      maxlength: 30,
+      minlength: 12,
+      unique: true,
+    },
     password: { type: String, required: true, minlength: 4 },
-    phonenumber: { type: Number, minlength: 8 },
+    phonenumber: { type: Number, minlength: 8, unique: true },
     profileimage: { type: String, required: false, maxlength: 50 },
     aboutme: { type: String, maxlength: 500, required: true },
     recomendetcarers: [{}], // here will go carers who owner recomends
@@ -46,14 +52,14 @@ petOwnerSchema
   .virtual("averageRating") // * define name of new key for the virtual field
   .get(function () {
     // * if there are no comments, return a string
-    if (!this.reviews.length) return "Not rated yet";
+    if (!this.petdata.reviews.length) return "Not rated yet";
     // * iterate through the comments array, add up all of the ratings
-    const sumOfRatings = this.reviews.reduce((acc, review) => {
+    const sumOfRatings = this.petdata.reviews.reduce((acc, review) => {
       if (!review.rating) return acc;
       return acc + review.rating;
     }, 0);
     // * return the average of the ratings, fixed to 2 decimal places
-    return (sumOfRatings / this.reviews.length).toFixed(2);
+    return (sumOfRatings / this.petdata.reviews.length).toFixed(2);
   });
 petOwnerSchema.set("toJSON", { virtuals: true });
 // rember to ad plugin with unique validator

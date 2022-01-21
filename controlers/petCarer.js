@@ -5,9 +5,21 @@ import { secret } from "../config/enviroment.js";
 export const getAllPetCarers = async (_req, res) => {
   try {
     const allPetCarers = await PetCarer.find();
+    if (!allPetCarers) throw new Error();
     return res.status(200).json(allPetCarers);
   } catch (err) {
     return res.status(404).json({ message: "Can't find users" });
+  }
+};
+
+export const getPetCarerById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const petCarer = await PetCarer.findById({ _id: id });
+    if (!petCarer) throw new Error();
+    return res.status(200).json(petCarer);
+  } catch (err) {
+    return res.status(404).json({ message: "Can't find user" });
   }
 };
 
@@ -51,6 +63,6 @@ export const loginPetCarer = async (req, res) => {
       .status(200)
       .json({ message: `Welcome back ${petCarerToLogin.firstname}`, token });
   } catch (err) {
-    return res.status(404).json({ message: err });
+    return res.status(404).json({ message: err.message });
   }
 };

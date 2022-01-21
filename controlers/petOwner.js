@@ -7,7 +7,19 @@ export const getAllPetOwners = async (_req, res) => {
     const allPetOwners = await PetOwner.find();
     return res.status(200).json(allPetOwners);
   } catch (err) {
-    return res.status(404).json({ message: "Can't find users" });
+    console.log(err);
+    return res.status(404).json({ message: err.message });
+  }
+};
+
+export const getPetOwnerById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const petOwner = await PetOwner.findById({ _id: id });
+    if (!petOwner) throw new Error();
+    return res.status(200).json(petOwner);
+  } catch (err) {
+    return res.status(404).json({ message: err.message });
   }
 };
 
@@ -51,6 +63,6 @@ export const loginPetOwner = async (req, res) => {
       .status(200)
       .json({ message: `Welcome back ${petOwnerToLogin.firstname}`, token });
   } catch (err) {
-    return res.status(404).json({ message: err });
+    return res.status(404).json({ message: err.message });
   }
 };

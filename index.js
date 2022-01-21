@@ -22,6 +22,7 @@ const startServer = async () => {
     app.listen(port, () =>
       console.log(`🍻 Express is up and running on port ${4000}`)
     );
+    // await mongoose.connection.db.dropDatabase();
     app.use(express.json());
     app.use("/api", router);
   } catch (err) {
