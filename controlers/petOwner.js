@@ -36,6 +36,20 @@ export const deletePetOwner = async (req, res) => {
   }
 };
 
+export const editPetOwnerProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const petOwnerToUpdate = await PetOwner.findByIdAndUpdate(id, req.body);
+    const findPetOwnerProfile = await PetOwner.findById(id);
+    if (!petOwnerToUpdate) throw new Error();
+    if (!petOwnerToUpdate._id.equals(req.currentUser._id))
+      throw new Error("Unauthorized");
+    return res.status(200).json(findPetOwnerProfile);
+  } catch (err) {
+    return res.status(404).json({ message: err.message });
+  }
+};
+
 export const registerPetOwner = async (req, res) => {
   try {
     const newPetOwner = await PetOwner.create(req.body);

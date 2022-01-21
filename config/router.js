@@ -1,6 +1,11 @@
 import express from "express";
 import {
+  secureRoutePetCarer,
+  secureRoutePetOwner,
+} from "../config/secureRoute.js";
+import {
   deletePetCarer,
+  editPetCarerProfile,
   getAllPetCarers,
   getPetCarerById,
   loginPetCarer,
@@ -8,6 +13,7 @@ import {
 } from "../controlers/petCarer.js";
 import {
   deletePetOwner,
+  editPetOwnerProfile,
   getAllPetOwners,
   getPetOwnerById,
   loginPetOwner,
@@ -20,8 +26,9 @@ const router = express.Router();
 router.route("/petCarers").get(getAllPetCarers);
 router
   .route("/petCarerProfile/:id")
-  .delete(deletePetCarer)
-  .get(getPetCarerById);
+  .delete(secureRoutePetCarer, deletePetCarer)
+  .get(getPetCarerById)
+  .put(secureRoutePetCarer, editPetCarerProfile);
 router.route("/registerPetCarer").post(registerPetCarer);
 router.route("/loginPetCarer").post(loginPetCarer);
 
@@ -29,8 +36,9 @@ router.route("/loginPetCarer").post(loginPetCarer);
 router.route("/petOwners").get(getAllPetOwners);
 router
   .route("/petOwnerProfile/:id")
-  .delete(deletePetOwner)
-  .get(getPetOwnerById);
+  .delete(secureRoutePetOwner, deletePetOwner)
+  .get(getPetOwnerById)
+  .put(secureRoutePetOwner, editPetOwnerProfile);
 router.route("/registerPetOwner").post(registerPetOwner);
 router.route("/loginPetOwner").post(loginPetOwner);
 

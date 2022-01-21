@@ -1,7 +1,7 @@
 import PetCarer from "../models/PetCarerModel.js";
 import PetOwner from "../models/PetOwnerModel.js";
 import jwt from "jsonwebtoken";
-import { secret } from "./enviroment";
+import { secret } from "./enviroment.js";
 
 export const secureRoutePetCarer = async (req, res, next) => {
   try {

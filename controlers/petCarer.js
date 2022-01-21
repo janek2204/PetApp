@@ -23,11 +23,32 @@ export const getPetCarerById = async (req, res) => {
   }
 };
 
+export const editPetCarerProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const petCarerToUpdate = await PetCarer.findByIdAndUpdate(
+      { _id: id },
+      req.body
+    );
+    if (!petCarerToUpdate) throw new Error();
+    if (!petCarerToUpdate._id.equals(req.currentUser._id))
+      throw new Error("Unauthorized");
+    return res.status(200).json(petCarerToUpdate);
+  } catch (err) {
+    return res.status(404).json({ message: err.message });
+  }
+};
+
 export const deletePetCarer = async (req, res) => {
   try {
     const { id } = req.params;
-    const petCarerToRemove = await PetCarer.findOneAndRemove({ _id: id });
-    if (!petCarerToRemove) throw new Error();
+
+    if (id != req.currentUser._id.toString())
+      throw new Error("You can't remove this profile! Go away!");
+
+    const petCarerToRemove = await PetCarer.findByIdAndDelete({ _id: id });
+    if (!petCarerToRemove) throw new Error("Can't find this profile");
+
     return res
       .status(200)
       .json({ message: "Pet Carer data has been removed." });
