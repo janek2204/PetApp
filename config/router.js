@@ -19,6 +19,12 @@ import {
   loginPetOwner,
   registerPetOwner,
 } from "../controlers/petOwner.js";
+import {
+  addReview,
+  deleteReview,
+  showAllReviews,
+  showReviewById,
+} from "../controlers/reviews.js";
 
 const router = express.Router();
 
@@ -31,6 +37,16 @@ router
   .put(secureRoutePetCarer, editPetCarerProfile);
 router.route("/registerPetCarer").post(registerPetCarer);
 router.route("/loginPetCarer").post(loginPetCarer);
+
+router
+  .route("/petCarerProfile/:id/reviews")
+  .post(secureRoutePetOwner, addReview)
+  .get(showAllReviews);
+
+router
+  .route("/petCarerProfile/:id/reviews/:reviewId")
+  .delete(secureRoutePetOwner, deleteReview)
+  .get(showReviewById);
 
 // Pet owner CRUD routes
 router.route("/petOwners").get(getAllPetOwners);

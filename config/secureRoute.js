@@ -13,7 +13,7 @@ export const secureRoutePetCarer = async (req, res, next) => {
     req.currentUser = petCarerToVerify;
     next();
   } catch (err) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: err.message });
   }
 };
 
@@ -27,6 +27,6 @@ export const secureRoutePetOwner = async (req, res, next) => {
     req.currentUser = petOwnerToVerify;
     next();
   } catch (err) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: err.message });
   }
 };
