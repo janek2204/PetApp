@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import uniqueValidator from "mongoose-unique-validator";
+import bcrypt from "bcrypt";
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -59,4 +61,43 @@ petCarerSchema
 petCarerSchema.set("toJSON", { virtuals: true });
 // rember to ad plugin with unique validator
 
+petCarerSchema.set("toJSON", {
+  // * when data is set to json in the response (in controllers)
+  virtuals: true,
+  transform(_doc, json) {
+    delete json.password; // * delete password key from json object
+    return json; // * return the rest of the object
+  },
+});
+
+// * Create virtual field for the password confirmation
+petCarerSchema
+  .virtual("passwordConfirmation") // * define name of the virtual field
+  .set(function (passwordConfirmation) {
+    this._passwordConfirmation = passwordConfirmation; // * set the value of the virtual field to be the value of the passwordConfirmation that comes in with the request body
+  });
+
+petCarerSchema.pre("validate", function (next) {
+  if (
+    this.isModified("password") &&
+    this.password !== this._passwordConfirmation
+  ) {
+    this.invalidate("passwordConfirmation", "does not match"); // * throw an error if password is new or updated and doesnt match the password confirmation
+  }
+  next();
+});
+
+petCarerSchema.pre("save", function (next) {
+  if (this.isModified("password")) {
+    // * check if password is new or has been updated
+    this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync()); // * hash the password and set result as value of password field
+  }
+  next(); // * move on to mongoose saving into the db
+});
+// * defining a custom method that will be available to use on all instances of the user
+petCarerSchema.methods.validatePassword = function (password) {
+  return bcrypt.compareSync(password, this.password);
+}; // * this function will hash incoming password and compare with hashed password stored in the d
+
+petCarerSchema.plugin(uniqueValidator);
 export default mongoose.model("PetCarer", petCarerSchema);

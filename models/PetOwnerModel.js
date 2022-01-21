@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import uniqueValidator from "mongoose-unique-validator";
+import bcrypt from "bcrypt";
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -100,4 +102,5 @@ petOwnerSchema.methods.validatePassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 }; // * this function will hash incoming password and compare with hashed password stored in the d
 
+petOwnerSchema.plugin(uniqueValidator);
 export default mongoose.model("PetOwner", petOwnerSchema);
