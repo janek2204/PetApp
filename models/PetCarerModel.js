@@ -27,6 +27,7 @@ const petCarerSchema = new mongoose.Schema(
     password: { type: String, required: true, minlength: 4 },
     phonenumber: { type: Number, minlength: 8, unique: true },
     profileimage: { type: String, required: false, maxlength: 50 },
+    accounttype: { type: String, required: true },
     aboutme: { type: String, maxlength: 500, required: true },
     reviews: [reviewSchema], //here will go reviews from pet owners
     preferedPets: { type: String, required: true },

@@ -27,6 +27,7 @@ const petOwnerSchema = new mongoose.Schema(
     password: { type: String, required: true, minlength: 4 },
     phonenumber: { type: Number, minlength: 8, unique: true },
     profileimage: { type: String, required: false, maxlength: 50 },
+    accounttype: { type: String, required: true },,
     aboutme: { type: String, maxlength: 500, required: true },
     recomendetcarers: [{}], // here will go carers who owner recomends
     petdata: {
