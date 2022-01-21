@@ -26,8 +26,13 @@ export const getPetOwnerById = async (req, res) => {
 export const deletePetOwner = async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (id != req.currentUser._id.toString())
+      throw new Error("You can't remove this profile! Go away!");
+
     const petOwnerToRemove = await PetOwner.findOneAndRemove({ _id: id });
     if (!petOwnerToRemove) throw new Error();
+
     return res
       .status(200)
       .json({ message: "Pet Owner data has been removed." });
@@ -39,11 +44,14 @@ export const deletePetOwner = async (req, res) => {
 export const editPetOwnerProfile = async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (id != req.currentUser._id.toString())
+      throw new Error("You can't edit this profile! Go away!");
+
     const petOwnerToUpdate = await PetOwner.findByIdAndUpdate(id, req.body);
-    const findPetOwnerProfile = await PetOwner.findById(id);
     if (!petOwnerToUpdate) throw new Error();
-    if (!petOwnerToUpdate._id.equals(req.currentUser._id))
-      throw new Error("Unauthorized");
+    const findPetOwnerProfile = await PetOwner.findById(id);
+
     return res.status(200).json(findPetOwnerProfile);
   } catch (err) {
     return res.status(404).json({ message: err.message });

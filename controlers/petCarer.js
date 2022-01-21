@@ -26,6 +26,10 @@ export const getPetCarerById = async (req, res) => {
 export const editPetCarerProfile = async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (id != req.currentUser._id.toString())
+      throw new Error("You can't edit this profile! Go away!");
+
     const petCarerToUpdate = await PetCarer.findByIdAndUpdate(
       { _id: id },
       req.body
