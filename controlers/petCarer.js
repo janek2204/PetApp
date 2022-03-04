@@ -28,7 +28,7 @@ export const editPetCarerProfile = async (req, res) => {
     const { id } = req.params;
 
     if (id != req.currentUser._id.toString())
-      throw new Error("You can't edit this profile! Go away!");
+      throw new Error("You can't edit this profile!");
 
     const petCarerToUpdate = await PetCarer.findByIdAndUpdate(
       { _id: id },
@@ -48,7 +48,7 @@ export const deletePetCarer = async (req, res) => {
     const { id } = req.params;
 
     if (id != req.currentUser._id.toString())
-      throw new Error("You can't remove this profile! Go away!");
+      throw new Error("You can't remove this profile!");
 
     const petCarerToRemove = await PetCarer.findByIdAndDelete({ _id: id });
     if (!petCarerToRemove) throw new Error("Can't find this profile");

@@ -56,10 +56,10 @@ export const deleteReview = async (req, res) => {
     if (!reviewToDelete) throw new Error();
 
     if (req.currentUser._id.toString() != reviewToDelete.owner.toString())
-      throw new Error("You can't delete this review! Go away!");
+      throw new Error("You can't delete this review! ");
     await reviewToDelete.remove();
     await petCarerProfile.save({ validateModifiedOnly: true });
-    return res.status(200).json({ message: "Review has been delted" });
+    return res.status(200).json({ message: "Review has been deleted" });
   } catch (err) {
     return res.status(401).json({ message: err.message });
   }
