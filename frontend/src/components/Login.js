@@ -19,13 +19,18 @@ const Login = () => {
       try {
         await axios
           .post("api/loginPetCarer/", values)
-          .then((response) => setLoginResponse(response.data.message));
+          .then((response) => setTokenToLocalStorage(response.data.token));
+
         navigate("/profile");
       } catch (err) {
         return setError(err.response);
       }
     },
   });
+
+  const setTokenToLocalStorage = (token) => {
+    window.localStorage.setItem("token", token);
+  };
 
   useEffect(() => {
     setError([]);

@@ -8,7 +8,7 @@ export const getPayLoad = () => {
   const splitToken = token.split(".");
   if (token.length < 3) return;
   const payloadString = splitToken[1];
-  return JSON.parse(atob(payloadString));
+  return JSON.parse(Buffer.from(payloadString, "base64"));
 };
 
 export const userIsAuthenticated = () => {
