@@ -6,17 +6,19 @@ import axios from "axios";
 
 const AllAdverts = () => {
 
-  const [data, setData] = useState();
+  const [allAdverts, setAllAdverts] = useState();
 
   useEffect(() => {
     const getData = async () => {
       const { data } = await axios.get("/api/petCarers");
-      console.log(data);
+      setAllAdverts(data)
     };
     getData();
   }, []);
 
-  return()
+  return(
+   
+  )
 }
 
 export default AllAdverts
