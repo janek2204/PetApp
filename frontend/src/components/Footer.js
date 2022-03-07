@@ -1,11 +1,15 @@
 import React from "react";
-import { Container } from "semantic-ui-react";
+import { Header, Menu } from "semantic-ui-react";
 
 const Footer = () => {
   return (
-    <Container>
-      <h1>footer</h1>
-    </Container>
+    <Menu inverted color="olive" fixed="bottom" widths={1}>
+      <Menu.Item>
+        <Header textAlign="center" style={{ color: "white", fontSize: 20 }}>
+          PetApp 2022
+        </Header>
+      </Menu.Item>
+    </Menu>
   );
 };
 export default Footer;

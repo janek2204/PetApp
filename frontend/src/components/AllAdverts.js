@@ -1,6 +1,6 @@
 import { Container } from "semantic-ui-react";
-import { useEffect, useState } from "react";
-import axios from "axios";
+// import { useEffect, useState } from "react";
+// import axios from "axios";
 
 const AllAdverts = () => {
   // const [allAdverts, setAllAdverts] = useState();
