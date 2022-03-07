@@ -1,8 +1,11 @@
 import { Button, Container, Form } from "semantic-ui-react";
 import { useFormik } from "formik";
 import axios from "axios";
+import { useState } from "react";
 
 const Register = () => {
+  const [registerMessage, setRegisterMessage] = useState("");
+
   const formik = useFormik({
     initialValues: {
       firstname: "",
@@ -24,11 +27,12 @@ const Register = () => {
       },
     },
     onSubmit: async (values) => {
-      await axios.post("api/registerPetCarer/", values);
+      await axios
+        .post("api/registerPetCarer/", values)
+        .then((response) => setRegisterMessage(response.data.message));
     },
   });
 
-  console.log(formik.values);
   return (
     <Container>
       <h1>Register</h1>
@@ -124,8 +128,8 @@ const Register = () => {
           values={formik.values.address.city}
           onChange={formik.handleChange}
         ></Form.Input>
+        <Button onClick={formik.handleSubmit}>Submit</Button>
       </Form>
-      <Button onClick={formik.handleSubmit}>Submit</Button>
     </Container>
   );
 };
