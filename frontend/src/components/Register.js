@@ -1,22 +1,23 @@
-import Container from "react-bootstrap/Container";
+import { Container } from "semantic-ui-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-
-
 const Register = () => {
+  // const [data, setData] = useState();
 
-  const [data, setData] = useState();
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const { data } = await axios.get("/api/petCarers");
+  //     console.log(data);
+  //   };
+  //   getData();
+  // }, []);
 
-  useEffect(() => {
-    const getData = async () => {
-      const { data } = await axios.get("/api/petCarers");
-      console.log(data);
-    };
-    getData();
-  }, []);
-  
-  return()
-}
+  return (
+    <Container>
+      <h1>Register</h1>
+    </Container>
+  );
+};
 
-export default Register
+export default Register;
