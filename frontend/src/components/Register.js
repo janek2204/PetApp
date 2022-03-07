@@ -1,10 +1,15 @@
-import { Button, Container, Form } from "semantic-ui-react";
+import { Button, Container, Form, Header } from "semantic-ui-react";
 import { useFormik } from "formik";
 import axios from "axios";
 import { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [registerMessage, setRegisterMessage] = useState("");
+  const [error, setError] = useState([]);
+
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -13,122 +18,261 @@ const Register = () => {
       email: "",
       password: "",
       passwordConfirmation: "",
-      phonenumber: 0,
+      phonenumber: "",
       profileimage: "",
       aboutme: "",
       preferedPets: "",
-      priceperhour: 0,
+      priceperhour: "",
       accounttype: "",
       address: {
         street: "",
-        housenumber: 0,
+        housenumber: "",
         postcode: "",
         city: "",
       },
     },
     onSubmit: async (values) => {
-      await axios
-        .post("api/registerPetCarer/", values)
-        .then((response) => setRegisterMessage(response.data.message));
+      try {
+        await axios
+          .post("api/registerPetCarer/", values)
+          .then((response) => setRegisterMessage(response.data.message));
+        navigate("/login");
+      } catch (err) {
+        return setError(err.response.data.errors);
+      }
     },
   });
 
   return (
     <Container>
       <h1>Register</h1>
-      <Form>
+      <Form onSubmit={formik.handleSubmit}>
         <Form.Input
-          label="First name"
+          label={
+            error.firstname ? (
+              <Header.Subheader style={{ color: "red" }}>
+                {error.firstname.message}
+              </Header.Subheader>
+            ) : (
+              "First name"
+            )
+          }
           id="firstname"
           values={formik.values.firstname}
           onChange={formik.handleChange}
         ></Form.Input>
+
         <Form.Input
-          label="Last name"
+          label={
+            error.lastname ? (
+              <Header.Subheader style={{ color: "red" }}>
+                {error.lastname.message}
+              </Header.Subheader>
+            ) : (
+              "Last name"
+            )
+          }
           id="lastname"
           values={formik.values.lastname}
           onChange={formik.handleChange}
         ></Form.Input>
+
         <Form.Input
-          label="Email"
+          label={
+            error.email ? (
+              <Header.Subheader style={{ color: "red" }}>
+                {error.email.message}
+              </Header.Subheader>
+            ) : (
+              "Email"
+            )
+          }
           id="email"
           values={formik.values.email}
           onChange={formik.handleChange}
         ></Form.Input>
+
         <Form.Input
-          label="Password"
+          label={
+            error.password ? (
+              <Header.Subheader style={{ color: "red" }}>
+                {error.password.message}
+              </Header.Subheader>
+            ) : (
+              "Password"
+            )
+          }
           id="password"
           values={formik.values.password}
           onChange={formik.handleChange}
         ></Form.Input>
+
         <Form.Input
-          label="Password Confirmation"
+          label={
+            error.password ? (
+              <Header.Subheader style={{ color: "red" }}>
+                {error.password.message}
+              </Header.Subheader>
+            ) : (
+              "Password Confirmation"
+            )
+          }
           id="passwordConfirmation"
           values={formik.values.passwordConfirmation}
           onChange={formik.handleChange}
         ></Form.Input>
+
         <Form.Input
-          label="Phone number"
+          label={
+            error.phonenumber ? (
+              <Header.Subheader style={{ color: "red" }}>
+                {error.phonenumber.message}
+              </Header.Subheader>
+            ) : (
+              "Your phone number"
+            )
+          }
           id="phonenumber"
           values={formik.values.phonenumber}
           onChange={formik.handleChange}
         ></Form.Input>
+
         <Form.Input
-          label="Profile Image"
+          label={
+            error.profileimage ? (
+              <Header.Subheader style={{ color: "red" }}>
+                {error.profileimage.message}
+              </Header.Subheader>
+            ) : (
+              "Profile Image"
+            )
+          }
           id="profileimage"
           values={formik.values.profileimage}
           onChange={formik.handleChange}
         ></Form.Input>
+
         <Form.Input
-          label="About Me"
+          label={
+            error.aboutme ? (
+              <Header.Subheader style={{ color: "red" }}>
+                {error.aboutme.message}
+              </Header.Subheader>
+            ) : (
+              "About Me"
+            )
+          }
           id="aboutme"
           values={formik.values.aboutme}
           onChange={formik.handleChange}
         ></Form.Input>
+
         <Form.Input
-          label="Prefered Pets"
+          label={
+            error.preferedPets ? (
+              <Header.Subheader style={{ color: "red" }}>
+                {error.preferedPets.message}
+              </Header.Subheader>
+            ) : (
+              "Prefered Pets"
+            )
+          }
           id="preferedPets"
           values={formik.values.preferedPets}
           onChange={formik.handleChange}
         ></Form.Input>
+
         <Form.Input
-          label="Price per hour"
+          label={
+            error.priceperhour ? (
+              <Header.Subheader style={{ color: "red" }}>
+                {error.priceperhour.message}
+              </Header.Subheader>
+            ) : (
+              "Price per hour"
+            )
+          }
           id="priceperhour"
           values={formik.values.priceperhour}
           onChange={formik.handleChange}
         ></Form.Input>
+
         <Form.Input
-          label="Account Type"
+          label={
+            error.accounttype ? (
+              <Header.Subheader style={{ color: "red" }}>
+                {error.accounttype.message}
+              </Header.Subheader>
+            ) : (
+              "Account type"
+            )
+          }
           id="accounttype"
           values={formik.values.accounttype}
           onChange={formik.handleChange}
         ></Form.Input>
-        <h4>Address</h4>
+
+        <Header>Address</Header>
         <Form.Input
-          label="Street"
+          label={
+            error["address.street"] ? (
+              <Header.Subheader style={{ color: "red" }}>
+                {error["address.street"].message}
+              </Header.Subheader>
+            ) : (
+              "Street"
+            )
+          }
           id="address.street"
           values={formik.values.address.street}
           onChange={formik.handleChange}
         ></Form.Input>
+
         <Form.Input
-          label="House number"
+          label={
+            error["address.housenumber"] ? (
+              <Header.Subheader style={{ color: "red" }}>
+                {error["address.housenumber"].message}
+              </Header.Subheader>
+            ) : (
+              "House number"
+            )
+          }
           id="address.housenumber"
           values={formik.values.address.housenumber}
           onChange={formik.handleChange}
         ></Form.Input>
+
         <Form.Input
-          label="Postcode"
+          label={
+            error["address.postcode"] ? (
+              <Header.Subheader style={{ color: "red" }}>
+                {error["address.postcode"].message}
+              </Header.Subheader>
+            ) : (
+              "Postcode"
+            )
+          }
           id="address.postcode"
           values={formik.values.address.postcode}
           onChange={formik.handleChange}
         ></Form.Input>
+
         <Form.Input
-          label="City"
+          label={
+            error["address.city"] ? (
+              <Header.Subheader style={{ color: "red" }}>
+                {error["address.city"].message}
+              </Header.Subheader>
+            ) : (
+              "City"
+            )
+          }
           id="address.city"
           values={formik.values.address.city}
           onChange={formik.handleChange}
         ></Form.Input>
-        <Button onClick={formik.handleSubmit}>Submit</Button>
+        <Button type="submit">Submit</Button>
       </Form>
     </Container>
   );
