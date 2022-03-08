@@ -5,8 +5,7 @@ import { useState } from "react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const Register = () => {
-  const [registerMessage, setRegisterMessage] = useState("");
+const Register = ({ setRegisteringResponse }) => {
   const [error, setError] = useState([]);
 
   const navigate = useNavigate();
@@ -35,7 +34,7 @@ const Register = () => {
       try {
         await axios
           .post("api/registerPetCarer/", values)
-          .then((response) => setRegisterMessage(response.data.message));
+          .then((response) => setRegisteringResponse(response.data.message));
         navigate("/login");
       } catch (err) {
         return setError(err.response.data.errors);

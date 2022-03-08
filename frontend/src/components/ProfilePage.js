@@ -17,15 +17,13 @@ const ProfilePage = () => {
 
   const getUserID = getPayLoad();
 
-  console.log(profileData);
-
   useEffect(() => {
     const getData = async () => {
       const { data } = await axios.get(`api/petCarerProfile/${getUserID.sub}/`);
       setProfileData(data);
     };
     getData();
-  }, []);
+  }, [getUserID.sub]);
 
   return (
     <Container>

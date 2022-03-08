@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Form, Header } from "semantic-ui-react";
 
-const Login = () => {
+const Login = ({ registeringResponse }) => {
   const [error, setError] = useState([]);
-  const [loginResponse, setLoginResponse] = useState([]);
 
   const navigate = useNavigate();
 
@@ -35,9 +34,10 @@ const Login = () => {
   useEffect(() => {
     setError([]);
   }, []);
-  console.log(loginResponse);
+
   return (
     <Container>
+      <Header>{registeringResponse}</Header>
       <Header as="h1">Login</Header>
       <Form onSubmit={formik.handleSubmit}>
         <Form.Input
@@ -52,7 +52,7 @@ const Login = () => {
           values={formik.values.password}
           id="password"
         />
-        {error.length != 0 && (
+        {error.length !== 0 && (
           <Header.Subheader style={{ color: "red" }}>
             Check your email and password and try again!
           </Header.Subheader>
