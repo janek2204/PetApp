@@ -5,6 +5,11 @@ import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+    window.localStorage.removeItem("token"); // remove token from local storage
+    navigate("/");
+  };
+
   return (
     <Menu>
       <Menu.Item>
@@ -18,7 +23,10 @@ const Navbar = () => {
       </Menu.Item>
 
       <Menu.Item>
-        <Header onClick={() => navigate("/")}>PetApp</Header>
+        <Button onClick={() => navigate("/profile")}>Profile</Button>
+      </Menu.Item>
+      <Menu.Item position="right">
+        <Button onClick={handleLogout}>Log out</Button>
       </Menu.Item>
     </Menu>
   );
