@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getPayLoad } from "../helpers/authentication";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import {
   Container,
   Header,
@@ -11,6 +13,7 @@ import {
 
 const ProfilePage = () => {
   const [profileData, setProfileData] = useState();
+  const [date, setDate] = useState(new Date());
 
   const getUserID = getPayLoad();
 
@@ -40,6 +43,14 @@ const ProfilePage = () => {
             Here is a bit more about {profileData.firstname}!
           </Header>
           <HeaderSubheader>{profileData.aboutme}</HeaderSubheader>
+          <Calendar onChange={setDate} value={date} selectRange={true} />
+          {date.length > 0 ? (
+            <Header>
+              Start: {date[0].toDateString()} | Finish: {date[1].toDateString()}
+            </Header>
+          ) : (
+            <Header>{date.toDateString()}</Header>
+          )}
         </>
       ) : (
         <Dimmer active>
